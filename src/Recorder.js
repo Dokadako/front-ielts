@@ -12,7 +12,7 @@ const Recorder = ({ isRecording, setIsRecording, askRandomQuestion, analyzeText,
 
   recognition.current.continuous = true;
   recognition.current.interimResults = false;
-  recognition.current.lang = 'ru-RU';
+  recognition.current.lang = 'en-EN';
 
   recognition.current.onresult = (event) => {
     const transcript = event.results[event.resultIndex][0].transcript;
