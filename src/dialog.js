@@ -69,7 +69,7 @@ const Dialog = () => {
 
   const getAIResponse = async (userInput) => {
     setLoading(true);
-    const apiKey = process.env.OPEN_API_KEY;
+    const apiKey = process.env.REACT_APP_OPEN_API_KEY;
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -134,7 +134,7 @@ const Dialog = () => {
 
   const analyzeConversation = async () => {
     setLoading(true);
-    const apiKey = process.env.OPEN_API_KEY;
+    const apiKey = process.env.REACT_APP_OPEN_API_KEY;
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {
