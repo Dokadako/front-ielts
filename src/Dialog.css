@@ -1,0 +1,102 @@
+body {
+    font-family: 'Plus Jakarta Sans', 'Noto Sans', sans-serif;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
+  }
+  
+  .container {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 1200px;
+    width: 100%;
+    margin: auto;
+  }
+  
+  h1 {
+    text-align: center;
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  #conversation-container {
+    margin-bottom: 20px;
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+  }
+  
+  #transcript {
+    white-space: pre-wrap;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  
+  #loading {
+    display: none;
+    text-align: center;
+  }
+  
+  #controls {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  button {
+    text-decoration: none;
+    display: flex;
+    min-width: 84px;
+    max-width: 480px;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 9999px;
+    height: 2.5rem;
+    padding: 10px 20px;
+    background-color: #019863;
+    color: #FFFFFF;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.5;
+    letter-spacing: 0.015em;
+    margin: 5px;
+  }
+  
+  .back-button {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #1C160C;
+  }
+  
+  .back-button .icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 8px;
+  }
+  
+  button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  button:hover:not(:disabled) {
+    background-color: #016f50;
+  }
+  
+  #analysis {
+    margin-top: 20px;
+    font-size: 14px;
+    white-space: pre-wrap;
+    line-height: 1.5;
+  }
+  

@@ -1,0 +1,204 @@
+@import url('https://fonts.googleapis.com/css2?display=swap&family=Noto+Sans:wght@400;500;700;900&family=Plus+Jakarta+Sans:wght@400;500;700;800');
+
+body {
+  font-family: "Plus Jakarta Sans", "Noto Sans", sans-serif;
+  background-color: #FFFFFF;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100vh;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-bottom: 1px solid #F4EFE6;
+  padding: 1rem 2.5rem;
+}
+
+.header h1 {
+  color: #1C160C;
+  font-size: 2rem;
+  font-weight: 900;
+}
+
+.header h2 {
+  color: #1C160C;
+  font-size: 1.25rem;
+}
+.content-left {
+  flex: 1; /* Занимает все доступное пространство слева */
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem; /* Промежуток между элементами внутри контейнера */
+  align-items: center;
+  border: 2px dashed #E9DFCE;
+  border-radius: 1rem;
+  padding: 3.5rem 1.5rem;
+}
+
+.main {
+  display: flex;
+  justify-content: space-between;
+  padding: 1.25rem 2.5rem;
+  flex-grow: 1;
+}
+
+.HeyGen-container {
+  width: 500px; /* Ширина блока с аватаркой */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.HeyGenStreamingAvatar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.HeyGenStreamingAvatar .App-header {
+  max-width: 500px;
+  padding: 20px;
+  background-color: #f0f0f0;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.HeyGenStreamingAvatar video {
+  width: 100%;
+  border-radius: 50px;
+}
+
+
+.button-group {
+  display: flex;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+}
+
+.button {
+  display: flex;
+  min-width: 84px;
+  max-width: 100%;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 9999px;
+  height: 3rem;
+  padding: 0 1.25rem;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.5;
+  letter-spacing: 0.015em;
+}
+.btn-primary {
+  border-radius: 9999px;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  background-color: #019863;
+  color: #FFFFFF;
+  border: none;
+}
+.btn-secondary {
+  border-radius: 9999px;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  background-color: #019863;
+  color: #FFFFFF;
+  border: none;
+}
+.button-start {
+  background-color: #019863;
+  color: #FFFFFF;
+  border: none;
+}
+
+.button-stop {
+  background-color: #F4EFE6;
+  color: #1C160C;
+  border: none;
+}
+
+.heading {
+  color: #1C160C;
+  font-size: 1.375rem;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+  padding: 1.25rem 1rem 0.75rem;
+}
+
+.analysis-section {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+.analysis-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  border: 2px dashed #E9DFCE;
+  border-radius: 1rem;
+  padding: 3.5rem 1.5rem;
+}
+
+.analysis-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  max-width: 480px;
+  text-align: center;
+}
+
+.analysis-text {
+  color: #1C160C;
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+}
+
+.loading {
+  margin-top: 0.5rem;
+  color: #1C160C;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.5;
+  letter-spacing: 0.015em;
+}
+
+.analysis-result {
+  color: #1C160C;
+  font-size: 1.125rem;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0.015em;
+}
+
+.back-button {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #1C160C;
+  position: absolute;
+  left: 20px;
+  top: 40px;
+  transform: translateY(-50%);
+}
+
+.back-button .icon {
+  width: 36px;
+  height: 36px;
+  margin-right: 8px;
+}
