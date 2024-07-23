@@ -46,7 +46,7 @@ const App = () => {
 
   const analyzeText = async (question, text) => {
     setLoading(true);
-    const apiKey = process.env.REACT_APP_OPEN_API_KEY ; // Replace with your actual API key
+    const apiKey = process.env.REACT_APP_OPEN_API_KEY; // Replace with your actual API key
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {
