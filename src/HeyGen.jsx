@@ -26,7 +26,7 @@ const HeyGen = forwardRef((props, ref) => {
 
     const fetchAccessToken = async () => {
         try {
-            const response = await fetch('http://localhost:3001/get-access-token', {
+            const response = await fetch('https://daniyal-ielts-51fa2cefcad8.herokuapp.com/get-access-token', {
                 method: 'POST'
             });
             const result = await response.json();
