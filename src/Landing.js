@@ -1,8 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './Landing.css'; // Make sure to update your CSS accordingly
-
+import { Analytics } from "@vercel/analytics/react"
 const Landing = () => {
+  <Analytics />
   return (
     <section className="landing-container">
       <header className="header-wrapper">
