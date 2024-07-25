@@ -104,6 +104,13 @@ a {
   margin-left: 30px;
 }
 .hero-image{
+  margin: 0 auto;
+  border-radius: 5%;
+  z-index: -1000;
+}
+.secondary-hero-image{
+  margin: 0 auto;
+  border-radius: 5%;
   z-index: -1000;
 }
 
@@ -170,6 +177,9 @@ a {
   border-radius: 50%;
   height: 80px;
   margin-bottom: 10px;
+}
+.feature-card{
+  margin-bottom: 30px;
 }
 
 .feature-icon {
@@ -268,6 +278,7 @@ a {
 @media (max-width: 1200px) {
   .main-content {
     padding: 0 100px;
+    padding-bottom: 20px;
   }
 }
 
@@ -319,7 +330,7 @@ a {
   .secondary-hero-title {
     color: black;
   }
-  
+
   .hero-description,
   .secondary-hero-description {
     color: black;
