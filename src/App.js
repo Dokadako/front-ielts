@@ -23,12 +23,12 @@ const App = () => {
         'Authorization': `Bearer ${apiKey}`
       },
       body: JSON.stringify({
-        model: "gpt-3.5-turbo",
-        messages: [{ role: "user", content: "Please provide a random question from the IELTS Speaking test. Here is the format: Question" }],
+        model: "gpt-4",
+        messages: [{ role: "user", content: "Please provide a random question from the IELTS Speaking test." }],
         max_tokens: 50,
         n: 1,
         stop: null,
-        temperature: 0.7
+        temperature: 1
       })
     });
 
@@ -54,24 +54,24 @@ const App = () => {
         'Authorization': `Bearer ${apiKey}`
       },
       body: JSON.stringify({
-        model: "gpt-3.5-turbo",
+        model: "gpt-4",
         messages: [{
           role: "user",
           content: `Analyze the following text based on IELTS Speaking criteria and provide feedback, including a score out of 9 for each criterion. Use paragraphs where necessary:\n\nQuestion: ${question}\n\nResponse: ${text}\n\nHere is the format:\n\n
-            **Fluency and Coherence:**\n[feedback]\n
+            Fluency and Coherence:\n[feedback]\n
             Score: [score]/9\n\n
-            **Lexical Resource:**\n
+            Lexical Resource:\n
             [feedback]\nScore: [score]/9\n\n
-            **Grammatical Range and Accuracy:**\n[feedback]\n
+            Grammatical Range and Accuracy:\n[feedback]\n
             Score: [score]/9\n\n
-            **Pronunciation:**\n[feedback]\n
+            Pronunciation:\n[feedback]\n
             Score: [score]/9\n\n
-            **Overall Band Score:** [score]/9`
+            Overall Band Score:[score]/9`
         }],
         max_tokens: 2048,
         n: 1,
         stop: null,
-        temperature: 0.7
+        temperature: 1
       })
     });
 

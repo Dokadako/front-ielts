@@ -70,6 +70,12 @@ const Dialog = () => {
   const getAIResponse = async (userInput) => {
     setLoading(true);
     const apiKey = process.env.REACT_APP_OPEN_API_KEY;
+    if (!apiKey) {
+      alert('API key is missing. Make sure to set your API key in the environment variables.');
+      setLoading(false);
+      return;
+    }
+    
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -77,9 +83,9 @@ const Dialog = () => {
         'Authorization': `Bearer ${apiKey}`
       },
       body: JSON.stringify({
-        model: "gpt-3.5-turbo",
+        model: "gpt-4",
         messages: [
-          { role: "system", content: "You are an IELTS examiner conducting a speaking test. Focus on the latest input while keeping the context of the entire conversation." },
+          { role: "system", content: "You are an IELTS examiner conducting a speaking test. Engage naturally with the user, providing thoughtful and relevant responses. Make sure to stay on topic based on the user's input, and ask follow-up questions wherever appropriate. Maintain the context of the entire conversation to ensure coherence." },
           ...conversation,
           { role: "user", content: userInput }
         ],
@@ -115,7 +121,6 @@ const Dialog = () => {
 
     utterance.onend = () => {
       console.log('Speech has finished');
-      // Start recording again after speech synthesis ends
       if (recognitionRef.current) {
         recognitionRef.current.start();
       }
@@ -123,7 +128,6 @@ const Dialog = () => {
 
     utterance.onerror = (event) => {
       console.error('SpeechSynthesisUtterance.onerror', event);
-      // Start recording again in case of an error
       if (recognitionRef.current) {
         recognitionRef.current.start();
       }
@@ -135,6 +139,12 @@ const Dialog = () => {
   const analyzeConversation = async () => {
     setLoading(true);
     const apiKey = process.env.REACT_APP_OPEN_API_KEY;
+    if (!apiKey) {
+      alert('API key is missing. Make sure to set your API key in the environment variables.');
+      setLoading(false);
+      return;
+    }
+
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -142,12 +152,12 @@ const Dialog = () => {
         'Authorization': `Bearer ${apiKey}`
       },
       body: JSON.stringify({
-        model: "gpt-3.5-turbo",
+        model: "gpt-4",
         messages: [{ role: "user", content: `Analyze the following conversation and provide feedback based on the IELTS Speaking criteria. Here is the conversation:\n\n${conversation.map(msg => `${msg.role === 'user' ? 'You' : 'AI'}: ${msg.content}`).join('\n')}` }],
         max_tokens: 2048,
         n: 1,
         stop: null,
-        temperature: 0.7
+        temperature: 1
       })
     });
 
