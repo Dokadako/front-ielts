@@ -1,8 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?display=swap&family=Noto+Sans:wght@400;500;700;900&family=Plus+Jakarta+Sans:wght@400;500;700;800');
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;700;900&family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap');
+
+:root {
+  --content-width: 1200px;
+  --container-padding: 1.25rem;
+}
 
 body {
-  font-family: "Plus Jakarta Sans", "Noto Sans", sans-serif;
-  background-color: #FFFFFF;
+  font-family: 'Plus Jakarta Sans', 'Noto Sans', sans-serif;
+  background-color: #ffffff;
 }
 
 .container {
@@ -10,46 +16,44 @@ body {
   flex-direction: column;
   justify-content: space-between;
   min-height: 100vh;
+  padding: var(--container-padding);
 }
 
 .header {
   display: flex;
   flex-direction: column;
   align-items: center;
-  border-bottom: 1px solid #F4EFE6;
-  padding: 1rem 2.5rem;
+  border-bottom: 1px solid #f4efe6;
 }
 
 .header h1 {
-  color: #1C160C;
+  color: #1c160c;
   font-size: 2rem;
   font-weight: 900;
 }
 
-.header h2 {
-  color: #1C160C;
-  font-size: 1.25rem;
-}
 .content-left {
-  flex: 1; /* Занимает все доступное пространство слева */
+  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem; /* Промежуток между элементами внутри контейнера */
+  gap: 1.5rem;
   align-items: center;
-  border: 2px dashed #E9DFCE;
+  border: 2px dashed #e9dfce;
   border-radius: 1rem;
   padding: 3.5rem 1.5rem;
 }
 
 .main {
   display: flex;
+  flex-direction: row;
   justify-content: space-between;
-  padding: 1.25rem 2.5rem;
-  flex-grow: 1;
+  margin: 0 auto;
+  max-width: var(--content-width);
+  width: 100%;
 }
 
 .HeyGen-container {
-  width: 500px; /* Ширина блока с аватаркой */
+  width: 500px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -75,8 +79,6 @@ body {
   width: 100%;
   border-radius: 50px;
 }
-
-
 .button-group {
   display: flex;
   gap: 0.75rem;
@@ -99,36 +101,39 @@ body {
   line-height: 1.5;
   letter-spacing: 0.015em;
 }
+
 .btn-primary {
   border-radius: 9999px;
   gap: 0.75rem;
   padding: 0.75rem 1rem;
   background-color: #019863;
-  color: #FFFFFF;
+  color: #ffffff;
   border: none;
 }
+
 .btn-secondary {
   border-radius: 9999px;
   gap: 0.75rem;
   padding: 0.75rem 1rem;
   background-color: #019863;
-  color: #FFFFFF;
+  color: #ffffff;
   border: none;
 }
+
 .button-start {
   background-color: #019863;
-  color: #FFFFFF;
+  color: #ffffff;
   border: none;
 }
 
 .button-stop {
-  background-color: #F4EFE6;
-  color: #1C160C;
+  background-color: #f4efe6;
+  color: #1c160c;
   border: none;
 }
 
 .heading {
-  color: #1C160C;
+  color: #1c160c;
   font-size: 1.375rem;
   font-weight: 700;
   line-height: 1.25;
@@ -147,7 +152,7 @@ body {
   flex-direction: column;
   align-items: center;
   gap: 1.5rem;
-  border: 2px dashed #E9DFCE;
+  border: 2px dashed #e9dfce;
   border-radius: 1rem;
   padding: 3.5rem 1.5rem;
 }
@@ -162,7 +167,7 @@ body {
 }
 
 .analysis-text {
-  color: #1C160C;
+  color: #1c160c;
   font-size: 1.125rem;
   font-weight: 700;
   line-height: 1.25;
@@ -171,7 +176,7 @@ body {
 
 .loading {
   margin-top: 0.5rem;
-  color: #1C160C;
+  color: #1c160c;
   font-size: 1rem;
   font-weight: 700;
   line-height: 1.5;
@@ -179,7 +184,7 @@ body {
 }
 
 .analysis-result {
-  color: #1C160C;
+  color: #1c160c;
   font-size: 1.125rem;
   font-weight: 500;
   line-height: 1.5;
@@ -190,9 +195,9 @@ body {
   display: flex;
   align-items: center;
   text-decoration: none;
-  color: #1C160C;
+  color: #1c160c;
   position: absolute;
-  left: 20px;
+  left: var(--container-padding);
   top: 40px;
   transform: translateY(-50%);
 }
@@ -201,4 +206,36 @@ body {
   width: 36px;
   height: 36px;
   margin-right: 8px;
+}
+
+/* Media Queries */
+
+@media (max-width: 900px) {
+  .main {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .HeyGen-container {
+    width: 100%;
+    margin-bottom: 1.5rem;
+  }
+
+  .content-left {
+    width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  :root {
+    --container-padding: 0.75rem;
+  }
+
+  .container {
+    padding: var(--container-padding);
+  }
+
+  .back-button {
+    left: var(--container-padding);
+  }
 }

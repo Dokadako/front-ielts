@@ -95,6 +95,9 @@ const App = () => {
         <h1>IELTS Speaking Analyzer</h1>
       </header>
       <main className="main">
+        <div className="HeyGen-container">
+          <HeyGen ref={heyGenRef} />
+        </div>
         <div className="content-left">
           <Recorder
             isRecording={isRecording}
@@ -109,9 +112,6 @@ const App = () => {
             analysis={analysis}
             loading={loading}
           />
-        </div>
-        <div className="HeyGen-container">
-          <HeyGen ref={heyGenRef} />
         </div>
       </main>
     </div>
