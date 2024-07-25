@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import Recorder from './Recorder';
 import Analysis from './Analysis';
+import { PacmanLoader } from 'react-spinners'; // Добавляем PacmanLoader
 import './App.css';
 
 import HeyGen from './HeyGen'; // Импорт компонента HeyGen
@@ -109,10 +110,16 @@ const App = () => {
             handleSpeak={heyGenRef.current?.speakText}
           />
           <h2 className="heading">Analysis</h2>
-          <Analysis
-            analysis={analysis}
-            loading={loading}
-          />
+          {loading ? (
+            <div className="loader-container">
+              <PacmanLoader color="#36d7b7" />
+            </div>
+          ) : (
+            <Analysis
+              analysis={analysis}
+              loading={loading}
+            />
+          )}
         </div>
       </main>
     </div>

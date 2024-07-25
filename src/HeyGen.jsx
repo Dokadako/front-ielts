@@ -11,7 +11,7 @@ const HeyGen = forwardRef((props, ref) => {
     const [stream, setStream] = useState(null);
     const [debug, setDebug] = useState('');
     const [initialized, setInitialized] = useState(false);
-    const [loading, setLoading] = useState(true);  // Новый state для отслеживания загрузки
+    const [loading, setLoading] = useState(true);
     const avatar = useRef(null);
     const [data, setData] = useState(null);
 
@@ -19,11 +19,26 @@ const HeyGen = forwardRef((props, ref) => {
         speakText: async (textToSpeak) => {
             if (!initialized || !avatar.current) {
                 console.error('Avatar API not initialized');
+                setDebug('Avatar API not initialized');
                 return;
             }
-            await avatar.current.speak({ taskRequest: { text: textToSpeak, sessionId: data?.sessionId } }).catch((e) => {
+            try {
+                const response = await avatar.current.speak({
+                    taskRequest: {
+                        text: textToSpeak,
+                        sessionId: data?.sessionId
+                    }
+                });
+                if (response.error) {
+                    console.error('Error during speak request:', response.error);
+                    setDebug(response.error.message);
+                } else {
+                    console.log(`Speak request successful: ${JSON.stringify(response)}`);
+                }
+            } catch (e) {
                 setDebug(e.message);
-            });
+                console.error('Catch block error during speak request:', e);
+            }
         }
     }));
 
@@ -34,60 +49,100 @@ const HeyGen = forwardRef((props, ref) => {
                 method: 'POST'
             });
             const result = await response.json();
-            const token = result.token;
-            console.log('Access token fetched:', token);
-            return token;
+            if (result.token) {
+                const token = result.token;
+                console.log('Access token fetched:', token);
+                return token;
+            } else {
+                throw new Error('Token not available in fetch result');
+            }
         } catch (error) {
             console.error('Error fetching access token:', error);
-            return '';
+            setDebug('Error fetching access token');
+            throw error;
         }
     };
 
+    const resetState = () => {
+        setStream(null);
+        setDebug('');
+        setInitialized(false);
+        setLoading(true);
+        setData(null);
+    };
+
     const grab = async () => {
-        await updateToken();
-
-        if (!avatar.current) {
-            setDebug('Avatar API is not initialized');
-            return;
-        }
-
+        resetState(); // Сброс состояния перед новой инициализацией
         try {
+            await updateToken();
+
+            if (!avatar.current) {
+                setDebug('Avatar API is not initialized');
+                return;
+            }
+
             console.log('Starting avatar session...');
-            const res = await avatar.current.createStartAvatar(
-                {
-                    newSessionRequest: {
-                        quality: "high",
-                        avatarName: predefinedAvatarId,
-                        voice: { voiceId: predefinedVoiceId }
-                    }
-                }, setDebug);
+            const res = await avatar.current.createStartAvatar({
+                newSessionRequest: {
+                    quality: "high",
+                    avatarName: predefinedAvatarId,
+                    voice: { voiceId: predefinedVoiceId }
+                }
+            }, setDebug);
+
+            if (!res || !res.sessionId) {
+                console.error('Invalid session response:', res);
+                setDebug('Failed to start avatar session. Invalid session response.');
+                return;
+            }
+
             setData(res);
-            setStream(avatar.current.mediaStream);
-            setLoading(false);  // Скрываем индикатор загрузки после инициализации аватара
             console.log('Avatar session started:', res);
+            setStream(avatar.current.mediaStream);
+            setLoading(false);
         } catch (error) {
             console.error('Error starting avatar session:', error);
-            setLoading(false);  // Скрываем индикатор загрузки при ошибке
+            setDebug(`Error starting avatar session: ${error.message}`);
+            setLoading(false);
         }
     };
 
     const updateToken = async () => {
-        console.log('Updating token...');
-        const newToken = await fetchAccessToken();
-        avatar.current = new StreamingAvatarApi(
-            new Configuration({ accessToken: newToken })
-        );
+        try {
+            console.log('Updating token...');
+            const newToken = await fetchAccessToken();
+            console.log('New token received:', newToken);
 
-        avatar.current.addEventHandler("avatar_start_talking", (e) => {
-            console.log("Avatar started talking", e);
-        });
+            avatar.current = new StreamingAvatarApi(
+                new Configuration({ accessToken: newToken })
+            );
 
-        avatar.current.addEventHandler("avatar_stop_talking", (e) => {
-            console.log("Avatar stopped talking", e);
-        });
+            avatar.current.addEventHandler("avatar_start_talking", (e) => {
+                console.log("Avatar started talking", e);
+            });
 
-        setInitialized(true);
-        console.log('Token updated and avatar API initialized');
+            avatar.current.addEventHandler("avatar_stop_talking", (e) => {
+                console.log("Avatar stopped talking", e);
+            });
+
+            avatar.current.addEventHandler("connection_state_change", (e) => {
+                console.log("Connection state change", e);
+            });
+
+            avatar.current.addEventHandler("ice_connection_state_change", (e) => {
+                console.log("ICE connection state change", e);
+            });
+
+            avatar.current.addEventHandler("error", (e) => {
+                console.error("Avatar error", e);
+            });
+
+            setInitialized(true);
+            console.log('Token updated and avatar API initialized');
+        } catch (error) {
+            console.error('Error updating token:', error);
+            setDebug(`Error updating token: ${error.message}`);
+        }
     };
 
     useEffect(() => {
@@ -95,30 +150,50 @@ const HeyGen = forwardRef((props, ref) => {
     }, []);
 
     useEffect(() => {
+        window.addEventListener('beforeunload', resetState);
+        return () => window.removeEventListener('beforeunload', resetState);
+    }, []);
+
+    useEffect(() => {
         if (stream) {
+            console.log('Stream:', stream);
             const videoElement = document.getElementById('myVideoElement');
             if (videoElement) {
+                console.log('Setting video stream to video element');
                 videoElement.srcObject = stream;
-                videoElement.muted = false;  // Ensure the video is not muted
-                videoElement.volume = 1.0;  // Set volume to maximum
-                console.log('Video stream set to video element');
+                videoElement.muted = false;
+                videoElement.volume = 1.0;
+
+                videoElement.onloadedmetadata = () => {
+                    console.log('Video metadata loaded');
+                    videoElement.play().catch(e => console.log('Play error:', e));
+                };
+                videoElement.onabort = () => console.log('Video abort');
+                videoElement.onerror = (e) => console.log('Video error', e);
+            } else {
+                console.error('Failed to find video element');
             }
+        } else {
+            console.log('No stream available to set to video element');
         }
     }, [stream]);
 
     return (
-        <div>
-            {loading ? (
-                <div className="loader-container">
+        <div style={{ position: 'relative' }}>
+            <video
+                id="myVideoElement"
+                autoPlay
+                playsInline
+                style={{ width: '500px', height: '400px' }}
+            ></video>
+            {loading && (
+                <div className="loader-container" style={{
+                    position: 'absolute', zIndex: 1, top: 0, left: 0, right: 0, bottom: 0,
+                    display: 'flex', justifyContent: 'center', alignItems: 'center',
+                    backgroundColor: 'rgba(255, 255, 255, 0.8)'
+                }}>
                     <ScaleLoader color="#36d7b7" />
                 </div>
-            ) : (
-                <video
-                    id="myVideoElement"
-                    autoPlay
-                    playsInline
-                    style={{ width: '500px', height: '400px' }} // Задайте здесь желаемые размеры
-                ></video>
             )}
         </div>
     );
