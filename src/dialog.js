@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import './Dialog.css';
 
@@ -85,7 +86,10 @@ const Dialog = () => {
       body: JSON.stringify({
         model: "gpt-4",
         messages: [
-          { role: "system", content: "You are an IELTS examiner conducting a speaking test. Engage naturally with the user, providing thoughtful and relevant responses. Make sure to stay on topic based on the user's input, and ask follow-up questions wherever appropriate. Maintain the context of the entire conversation to ensure coherence." },
+          { 
+            role: "system", 
+            content: "You are an IELTS examiner conducting a speaking test. Engage naturally with the user, providing thoughtful and relevant responses. Make sure to stay on topic based on the user's input, and ask follow-up questions wherever appropriate. Maintain the context of the entire conversation to ensure coherence." 
+          },
           ...conversation,
           { role: "user", content: userInput }
         ],
@@ -145,6 +149,8 @@ const Dialog = () => {
       return;
     }
 
+    const conversationStr = conversation.map(msg => `${msg.role === 'user' ? 'You' : 'AI'}: ${msg.content}`).join('\n');
+
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -153,11 +159,17 @@ const Dialog = () => {
       },
       body: JSON.stringify({
         model: "gpt-4",
-        messages: [{ role: "user", content: `Analyze the following conversation and provide feedback based on the IELTS Speaking criteria. Here is the conversation:\n\n${conversation.map(msg => `${msg.role === 'user' ? 'You' : 'AI'}: ${msg.content}`).join('\n')}` }],
+        messages: [{ 
+          role: "user", 
+          content: `Analyze the following conversation based on IELTS Speaking criteria, including Fluency and Coherence, Lexical Resource, Grammatical Range and Accuracy, and Pronunciation. For each criterion, provide detailed feedback and offer specific suggestions for improvement. When possible, suggest alternative words or phrases that could enhance the response. For example, recommend using "however" instead of "but" to improve the lexical resource.
+
+Here is the conversation:
+${conversationStr}` 
+        }],
         max_tokens: 2048,
         n: 1,
         stop: null,
-        temperature: 1
+        temperature: 0.7
       })
     });
 

@@ -1,5 +1,7 @@
-import { useEffect, useRef, useState, forwardRef, useImperativeHandle } from 'react';
+
+import React, { useEffect, useRef, useState, forwardRef, useImperativeHandle } from 'react';
 import { Configuration, StreamingAvatarApi } from '@heygen/streaming-avatar';
+import { ScaleLoader } from 'react-spinners';
 
 // Predefined Avatar ID and Voice ID
 const predefinedAvatarId = "Angela-inblackskirt-20220820";
@@ -9,6 +11,7 @@ const HeyGen = forwardRef((props, ref) => {
     const [stream, setStream] = useState(null);
     const [debug, setDebug] = useState('');
     const [initialized, setInitialized] = useState(false);
+    const [loading, setLoading] = useState(true);  // Новый state для отслеживания загрузки
     const avatar = useRef(null);
     const [data, setData] = useState(null);
 
@@ -26,11 +29,13 @@ const HeyGen = forwardRef((props, ref) => {
 
     const fetchAccessToken = async () => {
         try {
+            console.log('Fetching access token...');
             const response = await fetch('https://daniyal-ielts-51fa2cefcad8.herokuapp.com/get-access-token', {
                 method: 'POST'
             });
             const result = await response.json();
             const token = result.token;
+            console.log('Access token fetched:', token);
             return token;
         } catch (error) {
             console.error('Error fetching access token:', error);
@@ -47,6 +52,7 @@ const HeyGen = forwardRef((props, ref) => {
         }
 
         try {
+            console.log('Starting avatar session...');
             const res = await avatar.current.createStartAvatar(
                 {
                     newSessionRequest: {
@@ -57,12 +63,16 @@ const HeyGen = forwardRef((props, ref) => {
                 }, setDebug);
             setData(res);
             setStream(avatar.current.mediaStream);
+            setLoading(false);  // Скрываем индикатор загрузки после инициализации аватара
+            console.log('Avatar session started:', res);
         } catch (error) {
             console.error('Error starting avatar session:', error);
+            setLoading(false);  // Скрываем индикатор загрузки при ошибке
         }
     };
 
     const updateToken = async () => {
+        console.log('Updating token...');
         const newToken = await fetchAccessToken();
         avatar.current = new StreamingAvatarApi(
             new Configuration({ accessToken: newToken })
@@ -77,6 +87,7 @@ const HeyGen = forwardRef((props, ref) => {
         });
 
         setInitialized(true);
+        console.log('Token updated and avatar API initialized');
     };
 
     useEffect(() => {
@@ -90,21 +101,27 @@ const HeyGen = forwardRef((props, ref) => {
                 videoElement.srcObject = stream;
                 videoElement.muted = false;  // Ensure the video is not muted
                 videoElement.volume = 1.0;  // Set volume to maximum
+                console.log('Video stream set to video element');
             }
         }
     }, [stream]);
 
     return (
         <div>
-            <video
-                id="myVideoElement"
-                autoPlay
-                playsInline
-                style={{ width: '500px', height: '400px' }} // Задайте здесь желаемые размеры
-            ></video>
-            {/* <div id="debug">{debug}</div> */}
+            {loading ? (
+                <div className="loader-container">
+                    <ScaleLoader color="#36d7b7" />
+                </div>
+            ) : (
+                <video
+                    id="myVideoElement"
+                    autoPlay
+                    playsInline
+                    style={{ width: '500px', height: '400px' }} // Задайте здесь желаемые размеры
+                ></video>
+            )}
         </div>
     );
 });
 
-export default HeyGen; 
+export default HeyGen;

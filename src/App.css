@@ -52,6 +52,13 @@ body {
   width: 100%;
 }
 
+.loader-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
 .HeyGen-container {
   width: 500px;
   display: flex;

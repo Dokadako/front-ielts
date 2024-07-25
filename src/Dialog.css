@@ -51,6 +51,7 @@ body {
   }
   
   button {
+    border: none;
     text-decoration: none;
     display: flex;
     min-width: 84px;
