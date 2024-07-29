@@ -92,10 +92,15 @@ const HeyGen = forwardRef((props, ref) => {
 
             if (!res || !res.sessionId) {
                 console.error('Invalid session response:', res);
-                setDebug('Failed to start avatar session. Invalid session response.');
+                if (res && res.error) {
+                    console.error('Error details:', res.error);
+                    setDebug(`Failed to start avatar session. Error: ${res.error.message}`);
+                } else {
+                    setDebug('Failed to start avatar session. Invalid session response.');
+                }
                 return;
             }
-
+            
             setData(res);
             console.log('Avatar session started:', res);
             setStream(avatar.current.mediaStream);

@@ -1,12 +1,11 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import Recorder from './Recorder';
 import Analysis from './Analysis';
-import { PacmanLoader } from 'react-spinners'; // Добавляем PacmanLoader
+import { PacmanLoader } from 'react-spinners';
 import './App.css';
 
-import HeyGen from './HeyGen'; // Импорт компонента HeyGen
+import HeyGen from './HeyGen';
 
 const App = () => {
   const [analysis, setAnalysis] = useState([]);
@@ -17,7 +16,7 @@ const App = () => {
 
   const askRandomQuestion = async () => {
     setLoading(true);
-    const apiKey = process.env.REACT_APP_OPEN_API_KEY; // Replace with your actual API key
+    const apiKey = process.env.REACT_APP_OPEN_API_KEY;
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -40,7 +39,7 @@ const App = () => {
     if (data.choices && data.choices.length > 0) {
       const question = data.choices[0].message.content;
       setQuestion(question);
-      heyGenRef.current.speakText(question); // Speak the question
+      heyGenRef.current.speakText(question); 
     } else {
       setQuestion('No question available.');
     }
@@ -48,7 +47,7 @@ const App = () => {
 
   const analyzeText = async (question, text) => {
     setLoading(true);
-    const apiKey = process.env.REACT_APP_OPEN_API_KEY; // Replace with your actual API key
+    const apiKey = process.env.REACT_APP_OPEN_API_KEY;
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -83,7 +82,7 @@ const App = () => {
     if (data.choices && data.choices.length > 0) {
       const formattedText = data.choices[0].message.content.split('\n\n').map((paragraph) => paragraph);
       setAnalysis(formattedText);
-      heyGenRef.current.speakText(data.choices[0].message.content); // Speak the analysis
+      heyGenRef.current.speakText(data.choices[0].message.content); 
     } else {
       setAnalysis(['No analysis result available.']);
     }
@@ -94,7 +93,15 @@ const App = () => {
       <header className="header">
         <Link to="/" className="back-button">
           <img src="back-icon.png" alt="Back" className="icon" /> </Link>
-        <h1>IELTS Speaking Analyzer</h1>
+          <div className="logo-container">
+            <img 
+              loading="lazy" 
+              src="./logo.png" 
+              className="logo-image" 
+              alt="IELTS AI Logo" 
+            />
+            <h1>IELTS Speaking Analyzer</h1>
+          </div>
       </header>
       <main className="main">
         <div className="HeyGen-container">
