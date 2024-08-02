@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import Timer from './Timer';
 
 const Recorder = ({ isRecording, setIsRecording, askRandomQuestion, analyzeText, question, handleSpeak }) => {
   const [transcript, setTranscript] = useState('');
@@ -38,6 +39,7 @@ const Recorder = ({ isRecording, setIsRecording, askRandomQuestion, analyzeText,
 
   return (
     <div>
+      <Timer isRecording={isRecording} setIsRecording={setIsRecording} stopRecording={stopRecording} />
       <div className="button-group">
         <button className="button button-start" onClick={startRecording} disabled={isRecording}>Start Recording</button>
         <button className="button button-stop" onClick={stopRecording} disabled={!isRecording}>Stop Recording</button>

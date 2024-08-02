@@ -52,6 +52,18 @@ body {
   max-width: var(--content-width);
   width: 100%;
 }
+.timer-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.timer {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1c160c;
+}
 
 .loader-container {
     display: flex;
@@ -61,11 +73,21 @@ body {
 }
 
 .HeyGen-container {
-  width: 500px;
+  width: 400px;
+  height: 500px;
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
+.HeyGen-container video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensures the video covers the container while maintaining aspect ratio */
+  position: absolute; /* Keeps the video fixed within the container */
+}
+
 
 .HeyGenStreamingAvatar {
   display: flex;

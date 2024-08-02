@@ -184,12 +184,12 @@ const HeyGen = forwardRef((props, ref) => {
     }, [stream]);
 
     return (
-        <div style={{ position: 'relative' }}>
+        <div style={{ position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
             <video
                 id="myVideoElement"
                 autoPlay
                 playsInline
-                style={{ width: '500px', height: '400px' }}
+                style={{ width: '400px', height: '500px', objectFit: 'cover' }}
             ></video>
             {loading && (
                 <div className="loader-container" style={{
